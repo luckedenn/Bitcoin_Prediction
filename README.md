@@ -86,9 +86,3 @@ Interpretasi:
 * Nilai R² yang mendekati 1 menunjukkan bahwa model mampu menjelaskan sebagian besar variasi harga.
 * Nilai MAE dan RMSE yang relatif rendah terhadap nilai harga Bitcoin (sekitar 90.000 - 100.000) menunjukkan performa yang baik untuk prediksi jangka pendek.
 
-**---Ini adalah bagian akhir laporan---**
-
-> *Catatan tambahan:*
->
-> * Visualisasi hasil prediksi disertakan dalam notebook untuk menunjukkan prediksi terhadap harga aktual.
-> * Proyek ini dapat dikembangkan lebih lanjut dengan tuning hyperparameter LSTM atau menggunakan arsitektur hybrid untuk peningkatan performa.
