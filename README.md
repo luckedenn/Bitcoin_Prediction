@@ -4,9 +4,9 @@
 
 Perdagangan aset kripto, khususnya Bitcoin, telah menjadi tren utama dalam dunia keuangan digital. Volatilitas tinggi pada harga Bitcoin menjadikannya sangat menarik namun juga berisiko bagi investor dan trader. Oleh karena itu, prediksi harga Bitcoin dalam jangka pendek sangat penting guna membantu pengambilan keputusan investasi yang lebih bijak dan terukur.
 
-Banyak penelitian menunjukkan bahwa pendekatan machine learning dapat memberikan performa yang lebih baik dibandingkan metode statistik tradisional dalam melakukan forecasting harga aset digital \[1]. Salah satu pendekatan umum adalah menggunakan regresi untuk memodelkan harga penutupan (closing price) di masa depan berdasarkan nilai historis.
+Banyak penelitian menunjukkan bahwa pendekatan machine learning dapat memberikan performa yang lebih baik dibandingkan metode statistik tradisional dalam melakukan forecasting harga aset digital [1]. Salah satu pendekatan umum adalah menggunakan regresi untuk memodelkan harga penutupan (closing price) di masa depan berdasarkan nilai historis.
 
-\[1] S. J. B. Yoo, S. Kim, and S. Yoon, "Bitcoin price forecasting using deep learning algorithm," *IEEE Access*, vol. 9, pp. 99900–99909, 2021.
+[1] J. McNally, J. Roche, and S. Caton, “Predicting the price of Bitcoin using Machine Learning,” in 2018 26th Euromicro International Conference on Parallel, Distributed and Network-based Processing (PDP), Cambridge, 2018, pp. 339–343. doi: https://doi.org/10.1109/PDP2018.2018.00060
 
 ## Business Understanding
 
