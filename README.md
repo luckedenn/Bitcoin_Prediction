@@ -8,23 +8,30 @@ Banyak penelitian menunjukkan bahwa pendekatan deep learning seperti Long Short-
 
 \[1] J. McNally, J. Roche, and S. Caton, “Predicting the price of Bitcoin using Machine Learning,” in *2018 26th Euromicro International Conference on Parallel, Distributed and Network-based Processing (PDP)*, Cambridge, 2018, pp. 339–343. doi: [https://doi.org/10.1109/PDP2018.2018.00060](https://doi.org/10.1109/PDP2018.2018.00060)
 
-## Business Understanding
+## 📌 Business Understanding
 
-### Problem Statements
+### 🎯 Problem Statements
 
-1. Bagaimana cara memprediksi harga penutupan Bitcoin dalam 7 hari ke depan?
-2. Seberapa baik akurasi hasil prediksi harga Bitcoin menggunakan model LSTM berbasis deep learning?
+1. **Volatilitas harga Bitcoin** yang tinggi menyulitkan investor dalam mengambil keputusan investasi jangka pendek.  
+2. Belum tersedia sistem prediksi yang mampu memberikan **perkiraan harga penutupan Bitcoin 7 hari ke depan** secara andal untuk membantu mitigasi risiko pasar.  
+3. Sejauh mana **akurasi model deep learning** seperti LSTM mampu menangkap pola historis dan memprediksi harga secara akurat?
 
-### Goals
+---
 
-1. Membangun model prediksi harga penutupan Bitcoin berbasis LSTM.
-2. Mengevaluasi performa model menggunakan metrik evaluasi regresi seperti MAE, RMSE, dan R².
+### 🎯 Goals
 
-### Solution Statements
+1. **Membangun model prediksi harga penutupan Bitcoin** 7 hari ke depan dengan memanfaatkan model LSTM berbasis deep learning.  
+2. Menyediakan **sistem prediksi yang dapat mendukung pengambilan keputusan** investasi jangka pendek dengan memperkirakan tren harga.  
+3. **Mengukur kinerja model** menggunakan metrik regresi seperti MAE (Mean Absolute Error), RMSE (Root Mean Squared Error), dan R² Score.
 
-* Menggunakan model LSTM (Long Short-Term Memory) untuk melakukan prediksi harga penutupan 7 hari ke depan.
-* Mengimprovisasi akurasi model dengan preprocessing data dan eksplorasi fitur.
-* Evaluasi performa dilakukan dengan menggunakan MAE, RMSE, dan R² agar hasil prediksi dapat dinilai secara kuantitatif.
+---
+
+### 🧩 Solution Statements
+
+- Menggunakan **model LSTM (Long Short-Term Memory)** karena kemampuannya dalam memahami data sekuensial dan menangani long-term dependencies yang umum pada data time-series seperti harga aset kripto.  
+- Melakukan **pembersihan data dan normalisasi** agar model dapat belajar dari data yang konsisten dan berkualitas tinggi.  
+- Menggunakan **MAE, RMSE, dan R²** untuk mengevaluasi sejauh mana model mampu mendekati harga aktual dan seberapa besar error-nya dalam konteks bisnis.  
+
 
 ## Data Understanding
 
