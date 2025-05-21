@@ -32,16 +32,6 @@ Banyak penelitian menunjukkan bahwa pendekatan deep learning seperti Long Short-
 - Melakukan **pembersihan data dan normalisasi** agar model dapat belajar dari data yang konsisten dan berkualitas tinggi.  
 - Menggunakan **MAE, RMSE, dan R²** untuk mengevaluasi sejauh mana model mampu mendekati harga aktual dan seberapa besar error-nya dalam konteks bisnis.  
 
-Berikut adalah versi **markdown lengkap dan akurat** dari notebook kamu, termasuk:
-
-* Struktur dataset (`Timestamp`, `Close`)
-* Pembentukan sequence LSTM
-* Pembagian data train-test
-* Proses training dengan **EarlyStopping**
-* Evaluasi model
-
-Markdown ini bisa langsung digunakan di notebook untuk keperluan submission atau dokumentasi:
-
 ---
 
 ## 📊 Data Understanding
@@ -74,6 +64,20 @@ df.head()
 * **Missing values**: Tidak ditemukan nilai kosong
 * **Data duplikat**: Tidak ditemukan duplikat dalam indeks `Timestamp`
 * **Distribusi waktu**: Harian (daily) berdasarkan `Timestamp` sebagai index
+
+Link dataset: [https://www.kaggle.com/datasets/mczielinski/bitcoin-historical-data](https://www.kaggle.com/datasets/mczielinski/bitcoin-historical-data)
+
+---
+
+## Data Preparation
+
+Beberapa tahapan data preparation yang dilakukan:
+
+1. **Parsing dan konversi tipe data**: Mengonversi kolom `Date` menjadi tipe `datetime`.
+2. **Sorting data**: Mengurutkan berdasarkan tanggal.
+3. **Normalisasi nilai harga**: Menghindari skala besar yang dapat mengganggu pelatihan model.
+4. **Membuat windowing**: Menyusun `X` sebagai urutan harga historis dan `y` sebagai harga penutupan 1 hari ke depan hingga 7 hari ke depan.
+5. **Split data**: Menggunakan data historis 100 hari terakhir untuk training dan validasi, serta membuat prediksi untuk 7 hari ke depan.
 
 ---
 
@@ -154,31 +158,6 @@ Contoh hasil evaluasi (nilai akan disesuaikan setelah evaluasi model dijalankan)
 * **Solution**: Model LSTM mampu mengenali pola harga sebelumnya dan digunakan untuk prediksi harga ke depan
 
 ---
-
-Jika kamu ingin melengkapi bagian ini dengan **visualisasi loss** (`loss vs val_loss`) atau hasil prediksi vs aktual, saya bisa bantu buatkan juga. Cukup beri tahu!
-
-## Data Understanding
-
-Dataset yang digunakan adalah data historis harga Bitcoin dari Kaggle berjudul "Bitcoin Historical Data" yang mencakup fitur seperti `Open`, `High`, `Low`, `Close`, `Volume`, dan `Market Cap`.
-
-Link dataset: [https://www.kaggle.com/datasets/mczielinski/bitcoin-historical-data](https://www.kaggle.com/datasets/mczielinski/bitcoin-historical-data)
-
-### Fitur yang digunakan:
-
-* **Date**: Tanggal pencatatan.
-* **Close**: Harga penutupan Bitcoin per hari.
-
-Fokus utama fitur adalah kolom `Close` yang menjadi target prediksi.
-
-## Data Preparation
-
-Beberapa tahapan data preparation yang dilakukan:
-
-1. **Parsing dan konversi tipe data**: Mengonversi kolom `Date` menjadi tipe `datetime`.
-2. **Sorting data**: Mengurutkan berdasarkan tanggal.
-3. **Normalisasi nilai harga**: Menghindari skala besar yang dapat mengganggu pelatihan model.
-4. **Membuat windowing**: Menyusun `X` sebagai urutan harga historis dan `y` sebagai harga penutupan 1 hari ke depan hingga 7 hari ke depan.
-5. **Split data**: Menggunakan data historis 100 hari terakhir untuk training dan validasi, serta membuat prediksi untuk 7 hari ke depan.
 
 ## Modeling
 
