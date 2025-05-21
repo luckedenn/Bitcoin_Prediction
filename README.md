@@ -143,53 +143,22 @@ Model dievaluasi menggunakan metrik regresi berikut:
 
 ### 📌 Hasil Evaluasi
 
-Contoh hasil evaluasi (nilai akan disesuaikan setelah evaluasi model dijalankan):
-
 | Metrik | Nilai  |
 | ------ | ------ |
 | MAE    | \~2322 |
 | RMSE   | \~3453 |
 | R²     | \~0.98 |
 
+Interpretasi:
+
+* Nilai R² yang mendekati 1 menunjukkan bahwa model mampu menjelaskan sebagian besar variasi harga.
+* Nilai MAE dan RMSE yang relatif rendah terhadap nilai harga Bitcoin (sekitar 90.000 - 100.000) menunjukkan performa yang baik untuk prediksi jangka pendek.
+
 ### 🔗 Kaitan dengan Business Understanding
 
 * **Problem Statement**: Membuat model prediksi harga penutupan Bitcoin
 * **Goals**: Membangun model prediksi yang akurat berdasarkan data historis
 * **Solution**: Model LSTM mampu mengenali pola harga sebelumnya dan digunakan untuk prediksi harga ke depan
-
----
-
-## Modeling
-
-Model yang digunakan:
-
-* **LSTM** dari pustaka `tensorflow.keras`
-
-Alasan pemilihan:
-
-* Mampu menangani dependensi jangka panjang pada data sekuensial seperti deret waktu harga.
-* Lebih unggul dibanding model regresi linear dalam mengenali pola kompleks historis.
-
-### Parameter
-
-* Model Sequential dengan 1 atau lebih layer LSTM dan Dense output.
-* Optimizer: Adam
-* Loss Function: Mean Squared Error (MSE)
-* Epochs dan batch size ditentukan melalui eksperimen (misalnya 50 epoch, batch size 32)
-
-## Evaluation
-
-Model dievaluasi menggunakan tiga metrik:
-
-* **MAE (Mean Absolute Error)**: Rata-rata selisih absolut antara nilai aktual dan prediksi.
-* **RMSE (Root Mean Squared Error)**: Akar dari rata-rata kuadrat error; memberikan penalti lebih tinggi untuk error besar.
-* **R² Score (Koefisien Determinasi)**: Mengukur proporsi variansi data target yang dapat dijelaskan oleh model.
-
-### Hasil Evaluasi:
-
-* **MAE**  : 2322.14
-* **RMSE** : 3452.64
-* **R²**   : 0.98
 
 Interpretasi:
 
