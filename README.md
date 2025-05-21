@@ -143,13 +143,13 @@ Berikut parameter utama yang digunakan dalam model:
 
 ---
 
-#### ✅ Kelebihan LSTM (Opsional)
+#### ✅ Kelebihan LSTM 
 
 * Mampu mengingat pola jangka panjang
 * Cocok untuk data time-series seperti harga Bitcoin
 * Menangani fluktuasi yang tidak beraturan dalam data
 
-#### ⚠️ Kekurangan LSTM (Opsional)
+#### ⚠️ Kekurangan LSTM 
 
 * Waktu pelatihan relatif lama dibanding model ML tradisional
 * Membutuhkan tuning parameter yang cermat
