@@ -188,8 +188,3 @@ Interpretasi:
 * **Goals**: Membangun model prediksi yang akurat berdasarkan data historis
 * **Solution**: Model LSTM mampu mengenali pola harga sebelumnya dan digunakan untuk prediksi harga ke depan
 
-Interpretasi:
-
-* Nilai R² yang mendekati 1 menunjukkan bahwa model mampu menjelaskan sebagian besar variasi harga.
-* Nilai MAE dan RMSE yang relatif rendah terhadap nilai harga Bitcoin (sekitar 90.000 - 100.000) menunjukkan performa yang baik untuk prediksi jangka pendek.
-
