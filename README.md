@@ -183,8 +183,7 @@ Interpretasi:
 * Nilai MAE dan RMSE yang relatif rendah terhadap nilai harga Bitcoin (sekitar 90.000 - 100.000) menunjukkan performa yang baik untuk prediksi jangka pendek.
 
 ### 🔗 Kaitan dengan Business Understanding
+Seperti yang dijabarkan dalam Business Understanding, model ini ditujukan untuk membantu investor dalam mengantisipasi pergerakan harga Bitcoin.
+Model berhasil memberikan prediksi harga yang akurat dan stabil, dengan error relatif kecil terhadap harga aktual. Hal ini dapat digunakan sebagai dasar pengambilan keputusan investasi seperti entry/exit point dan analisis risiko.
 
-* **Problem Statement**: Membuat model prediksi harga penutupan Bitcoin
-* **Goals**: Membangun model prediksi yang akurat berdasarkan data historis
-* **Solution**: Model LSTM mampu mengenali pola harga sebelumnya dan digunakan untuk prediksi harga ke depan
 
