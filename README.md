@@ -69,15 +69,29 @@ Link dataset: [https://www.kaggle.com/datasets/mczielinski/bitcoin-historical-da
 
 ---
 
-## Data Preparation
+## 📊 Data Preparation
 
-Beberapa tahapan data preparation yang dilakukan:
+Beberapa tahapan *data preparation* yang dilakukan sebelum pelatihan model:
 
-1. **Parsing dan konversi tipe data**: Mengonversi kolom `Date` menjadi tipe `datetime`.
-2. **Sorting data**: Mengurutkan berdasarkan tanggal.
-3. **Normalisasi nilai harga**: Menghindari skala besar yang dapat mengganggu pelatihan model.
-4. **Membuat windowing**: Menyusun `X` sebagai urutan harga historis dan `y` sebagai harga penutupan 1 hari ke depan hingga 7 hari ke depan.
-5. **Split data**: Menggunakan data historis 100 hari terakhir untuk training dan validasi, serta membuat prediksi untuk 7 hari ke depan.
+1. **Parsing dan konversi tipe data**
+   Kolom `Timestamp` dikonversi menjadi format `datetime` agar dapat diolah sebagai data deret waktu, lalu diatur sebagai indeks dengan `set_index`.
+
+2. **Resampling harian**
+   Data harga Bitcoin di-*resample* menjadi data harian (`'D'`) untuk mengurangi kepadatan dan menyusun deret waktu yang konsisten.
+
+3. **Pemilihan fitur**
+   Hanya kolom `Close` yang digunakan untuk prediksi karena merepresentasikan harga penutupan harian Bitcoin.
+
+4. **Normalisasi data**
+   Skala harga dinormalisasi menggunakan `MinMaxScaler` ke rentang \[0, 1] agar model LSTM lebih stabil dan cepat belajar.
+
+5. **Membuat sequence (windowing)**
+   Sequence dibuat dengan **60 hari sebelumnya sebagai input (`X`)** dan **1 hari setelahnya sebagai target (`y`)**.
+   Tujuan windowing ini adalah untuk melatih model mengenali pola harga historis jangka pendek.
+
+6. **Pembagian data latih dan uji**
+   Dataset dibagi menjadi data **train** dan **test** dengan rasio sekitar 80:20 setelah sequence dibuat.
+   Ini memastikan model dievaluasi dengan data yang belum pernah dilihat selama pelatihan.
 
 ---
 
@@ -87,73 +101,72 @@ Beberapa tahapan data preparation yang dilakukan:
 
 #### 🔍 Cara Kerja LSTM
 
-Long Short-Term Memory (LSTM) merupakan arsitektur dari Recurrent Neural Network (RNN) yang dirancang untuk mengatasi masalah *vanishing gradient* dan mengingat informasi dalam jangka waktu panjang. LSTM bekerja dengan menggunakan struktur yang disebut **sel memori**, serta tiga gerbang utama:
+LSTM (Long Short-Term Memory) adalah arsitektur dari Recurrent Neural Network (RNN) yang dirancang untuk mengenali pola dalam data sekuensial, terutama yang memiliki ketergantungan jangka panjang.
+LSTM memiliki **sel memori internal** dan tiga gerbang utama yang mengatur informasi yang disimpan atau dibuang:
 
-* **Forget Gate**: Memutuskan informasi mana dari state sebelumnya yang akan dibuang.
-* **Input Gate**: Menentukan informasi baru apa yang akan disimpan di sel.
-* **Output Gate**: Menentukan output dari sel berdasarkan state saat ini dan input.
+* **Forget Gate**: Menentukan informasi dari state sebelumnya yang perlu dilupakan.
+* **Input Gate**: Menentukan informasi baru yang akan ditambahkan ke memori.
+* **Output Gate**: Menghasilkan output berdasarkan memori dan input terkini.
 
-Model ini sangat efektif untuk data deret waktu seperti harga Bitcoin karena dapat menangkap pola dan tren jangka panjang.
-
----
-
-#### ⚙️ Parameter Model
-
-Berikut parameter utama yang digunakan dalam model:
-
-* `n_steps = 60`
-
-  > Jumlah timestep (60 hari sebelumnya digunakan untuk memprediksi harga hari ke-61)
-
-* **Lapisan LSTM**:
-
-  * Jumlah unit: *default (misalnya 50/64)* – menangani representasi pola data secara sekuensial
-  * `return_sequences=True` – untuk lapisan bertingkat
-
-* **Lapisan Dense (output)**:
-
-  * Unit: 1 – menghasilkan satu nilai prediksi (harga Bitcoin)
-
-* **Fungsi Aktivasi**:
-
-  * LSTM menggunakan `tanh` secara default
-  * Dense output tidak menggunakan aktivasi karena ini adalah regresi
-
-* **Optimizer**: `adam`
-
-  * Optimizer adaptif default yang bekerja baik untuk sebagian besar kasus
-
-* **Loss Function**: `mean_squared_error`
-
-  * Cocok untuk regresi
-
-* **Batch Size**: 64
-
-  * Ukuran batch untuk setiap langkah pelatihan
-
-* **Epochs**: 20
-
-  * Jumlah maksimum iterasi pelatihan
-
-* **Callbacks**:
-
-  * `EarlyStopping(monitor='val_loss', patience=5)`
-
-    > Menghentikan pelatihan lebih awal jika tidak ada perbaikan selama 5 epoch berturut-turut
+Kemampuan ini sangat bermanfaat untuk memprediksi data deret waktu seperti harga Bitcoin.
 
 ---
 
-#### ✅ Kelebihan LSTM 
+### ⚙️ Arsitektur Model
 
-* Mampu mengingat pola jangka panjang
-* Cocok untuk data time-series seperti harga Bitcoin
-* Menangani fluktuasi yang tidak beraturan dalam data
+Model dibangun menggunakan Keras `Sequential` API sebagai berikut:
 
-#### ⚠️ Kekurangan LSTM 
+```python
+model = Sequential([
+    LSTM(50, return_sequences=True, input_shape=(n_steps, 1)),
+    LSTM(50),
+    Dense(1)
+])
+model.compile(optimizer='adam', loss='mse')
+```
 
-* Waktu pelatihan relatif lama dibanding model ML tradisional
-* Membutuhkan tuning parameter yang cermat
-* Bisa mengalami overfitting tanpa regularisasi atau dropout
+Penjelasan setiap layer:
+
+* **LSTM(50, return\_sequences=True)**
+
+  * Layer LSTM pertama dengan 50 unit, memproses urutan input dan mengembalikan seluruh sequence ke layer berikutnya.
+  * `return_sequences=True` diperlukan karena akan diteruskan ke layer LSTM kedua.
+
+* **LSTM(50)**
+
+  * Layer LSTM kedua dengan 50 unit, hanya mengembalikan output dari langkah terakhir untuk dijadikan input ke layer Dense.
+
+* **Dense(1)**
+
+  * Layer output dengan satu unit neuron karena output model adalah satu nilai harga (regresi).
+
+---
+
+### 🔧 Konfigurasi Pelatihan
+
+| Parameter           | Nilai                    | Penjelasan                                                                |
+| ------------------- | ------------------------ | ------------------------------------------------------------------------- |
+| `n_steps`           | 60                       | Input berupa 60 hari data historis harga penutupan                        |
+| Fungsi Aktivasi     | `tanh` (default di LSTM) | Cocok untuk data time-series                                              |
+| Loss Function       | `mean_squared_error`     | Umum digunakan untuk regresi                                              |
+| Optimizer           | `adam`                   | Optimizer adaptif yang cepat konvergen                                    |
+| Batch Size          | 64                       | Ukuran mini-batch selama pelatihan                                        |
+| Epochs              | 20                       | Iterasi maksimum pelatihan model                                          |
+| Callback (opsional) | `EarlyStopping`          | Menghentikan pelatihan saat validasi stagnan (tidak disebut di kode awal) |
+
+---
+
+### ✅ Kelebihan LSTM
+
+* Mampu mengingat pola jangka panjang secara efektif.
+* Sangat cocok untuk data time-series yang memiliki pola musiman atau tren.
+* Menangani ketidakberaturan data lebih baik daripada model klasik.
+
+### ⚠️ Kekurangan LSTM
+
+* Pelatihan memerlukan waktu lebih lama.
+* Rentan terhadap overfitting jika tidak disertai dengan teknik regulasi atau validasi silang.
+* Parameter cukup banyak dan memerlukan tuning agar optimal.
 
 ---
 
